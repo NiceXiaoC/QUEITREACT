@@ -3,9 +3,13 @@ import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 class AuthRoute extends React.Component {
 	componentDidMount() {
+		const publicList = ['/login','/register']
+		const pathName = this.props.history.location.pathname
+		if(publicList.indexOf(pathName) > -1){
+			return null
+		}
 		// 获取用户信息
 		axios.get('/user/info').then(res => {
-			console.log(res)
 			if(res.status === 200) {
 				console.log(res.data)
 				if(res.data.code === 0) {

@@ -6,3 +6,30 @@ mongoose.connect(DB_URL)
 mongoose.connection.on('connected', function() {
 	console.log('数据库链接成功')
 })
+
+
+const models = {
+	user: {
+		'user': {type:String,require:true},
+		'pwd': {type:String,require:true},
+		'type': {type:String,require:true},
+		// 图像
+		'avatar': {type:String},
+		// 简介
+		'desc': {type:String},
+		// 职位名
+		'title': {type:String},
+		'company': {type: String}
+	},
+	chat: {}
+}
+
+for(let m in models){
+	mongoose.model(m, new mongoose.Schema(models[m]))
+}
+
+module.exports = {
+	getModel: function(name){
+		return mongoose.model(name)
+	}
+}

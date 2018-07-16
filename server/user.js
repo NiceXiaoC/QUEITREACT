@@ -29,6 +29,7 @@ Router.post('/login', function(req, res) {
 // 注册
 Router.post('/register', function(req, res) {
 	const {user,pwd,type} = req.body
+	console.log({user})
 	User.findOne({user},function(err,doc){
 		if (doc) {
 			return res.json({code:1,msg: '该用户已存在'})

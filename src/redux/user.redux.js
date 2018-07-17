@@ -3,6 +3,7 @@ import { getRedirectPath } from './util'
 const REGISTER_USCCESS = 'REGISTER_USCCESS'
 const ERROR_MSG = 'ERROR_MSG'
 const LOGIN_USCCESS = 'LOGIN_USCCESS'
+const AUTH_SUCCESS = 'AUTH_SUCCESS'
 const LODE_DATA = 'LODE_DATA'
 const initState = {
 	redirectTo: '',
@@ -16,6 +17,13 @@ const initState = {
 // reduce
 export function user(state = initState, action) {
 	switch(action.type) {
+		case AUTH_SUCCESS:
+			return {
+				...state,
+				msg: '',
+				redirectTo: getRedirectPath(action.payload),
+				...action.payload
+			}
 		case REGISTER_USCCESS:
 			return {
 				...state,
@@ -49,6 +57,14 @@ export function user(state = initState, action) {
 
 }
 
+
+function authSuccess(data) {
+	return {
+		type: AUTH_SUCCESS,
+		payload: data
+	}
+}
+
 function loginSuccess(data) {
 	return {
 		type:LOGIN_USCCESS,
@@ -79,6 +95,18 @@ export function userInfo(data) {
 	}
 }
 
+export function update(data) {
+	return dispatch=>{
+		axios.post('/user/update', data).then(res=>{
+			if(res.status === 200 && res.data.code === 0) {
+				dispatch(authSuccess(res.data.data))
+			} else {
+				dispatch(errorMsg(res.data.msg))
+			}
+		})
+	}
+}
+
 // 登录
 export function login({
 	user,
@@ -93,7 +121,7 @@ export function login({
 			pwd
 		}).then(res => {
 			if(res.status === 200 && res.data.code === 0) {
-				dispatch(loginSuccess(res.data.data))
+				dispatch(authSuccess(res.data.data))
 			} else {
 				dispatch(errorMsg(res.data.msg))
 			}
@@ -111,7 +139,6 @@ export function register({
 	if(!user || !pwd || !type) {
 		return errorMsg('用户或密码必须输入')
 	}
-
 	if(pwd !== repeatpwd) {
 		return errorMsg('密码和确认密码必须一致')
 	}
@@ -122,7 +149,7 @@ export function register({
 			type
 		}).then(res => {
 			if(res.status === 200 && res.data.code === 0) {
-				dispatch(registerSuccess(user, pwd, type))
+				dispatch(authSuccess(user, pwd, type))
 			} else {
 				dispatch(errorMsg(res.data.msg))
 			}

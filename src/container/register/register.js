@@ -19,7 +19,7 @@ class Register extends React.Component {
 			user: '',
 			pwd: '',
 			repeatpwd: '',
-			type: 'geninus'
+			type: 'genius'
 		}
 		this.handleRegister = this.handleRegister.bind(this)
 	}
@@ -48,7 +48,7 @@ class Register extends React.Component {
         		<WhiteSpace/>
         		<InputItem type='password' onChange={(v)=>this.handleChange('pwd',v)}>密码:</InputItem>
         		<InputItem type='password' onChange={(v)=>this.handleChange('repeatpwd',v)}>确认密码:</InputItem>
-        		<RadioItem onChange={()=>this.handleChange('type','geninus')} checked={this.state.type === 'geninus'}>
+        		<RadioItem onChange={()=>this.handleChange('type','genius')} checked={this.state.type === 'genius'}>
         			牛人
         		</RadioItem>
         		<RadioItem onChange={()=>this.handleChange('type','boss')} checked={this.state.type === 'boss'}>

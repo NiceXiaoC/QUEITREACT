@@ -22,11 +22,13 @@ ReactDOM.render(
     <BrowserRouter>
       <div>
       	<AuthRoute></AuthRoute>
-        <Route path="/bossinfo" component={BossInfo}></Route>
-        <Route path="/geniusinfo" component={Geniusinfo}></Route>
-        <Route path="/login" component={Login}></Route>
-        <Route path="/register" component={Register}></Route>
-        <Route component={DashBoard}></Route>
+      	<Switch>
+	        <Route path="/bossinfo" component={BossInfo}></Route>
+	        <Route path="/geniusinfo" component={Geniusinfo}></Route>
+	        <Route path="/login" component={Login}></Route>
+	        <Route path="/register" component={Register}></Route>
+	        <Route component={DashBoard}></Route>
+        </Switch>
       </div>
     </BrowserRouter>
   </Provider>,

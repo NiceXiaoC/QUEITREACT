@@ -2,6 +2,7 @@
 export function getRedirectPath({type,avatar}) {
 	// user.type / boss / genius
 	// user.avatar /boosinfo / geniusinfo
+	console.log(type,111)
 	let url = (type === 'boss') ? '/boss' : '/genius'
 	if(!avatar){
 		url += 'info'

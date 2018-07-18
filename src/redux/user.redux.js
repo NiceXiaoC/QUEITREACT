@@ -44,6 +44,7 @@ export function user(state = initState, action) {
 		case LODE_DATA:
 			return {
 				...state,
+				redirectTo: getRedirectPath(action.payload),
 				...action.payload
 			}
 		case ERROR_MSG:
@@ -55,12 +56,10 @@ export function user(state = initState, action) {
 		default:
 			return state
 	}
-
 }
 
-
 function authSuccess(obj) {
-	const {psw,...data} = data
+	const {psw,...data} = obj
 	return {
 		type: AUTH_SUCCESS,
 		payload: data

@@ -22,7 +22,8 @@ export function user(state = initState, action) {
 				...state,
 				msg: '',
 				redirectTo: getRedirectPath(action.payload),
-				...action.payload
+				...action.payload,
+				psw: ''
 			}
 		case REGISTER_USCCESS:
 			return {
@@ -58,7 +59,8 @@ export function user(state = initState, action) {
 }
 
 
-function authSuccess(data) {
+function authSuccess(obj) {
+	const {psw,...data} = data
 	return {
 		type: AUTH_SUCCESS,
 		payload: data

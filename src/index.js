@@ -12,19 +12,21 @@ import './config'
 import Login from './container/login/login'
 import Register from './container/register/register'
 import AuthRoute from './component/authroute/authroute'
-import Boss from './container/bossinfo/bossinfo'
-
+import BossInfo from './container/bossinfo/bossinfo'
+import Geniusinfo from './container/geniusinfo/geniusinfo'
+import DashBoard from './component/dashboard/dashboard'
 const store = createStore(reducers, applyMiddleware(thunk))
-
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <div>
       	<AuthRoute></AuthRoute>
-        <Route path="/bossinfo" component={Boss}></Route>
+        <Route path="/bossinfo" component={BossInfo}></Route>
+        <Route path="/geniusinfo" component={Geniusinfo}></Route>
         <Route path="/login" component={Login}></Route>
         <Route path="/register" component={Register}></Route>
+        <Route component={DashBoard}></Route>
       </div>
     </BrowserRouter>
   </Provider>,

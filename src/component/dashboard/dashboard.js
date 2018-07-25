@@ -5,14 +5,12 @@ import NavLinkBar from '../navlink/navlink'
 import { Switch, Route } from 'react-router-dom'
 import Boss from './../boss/boss'
 import Genius from './../genius/genius'
+import User from './../user/user'
+
 import '../../index.css'
 
 function Msg() {
 	return <h2>消息列表</h2>
-}
-
-function Me() {
-	return <h2>个人中心</h2>
 }
 
 @connect(
@@ -20,7 +18,11 @@ function Me() {
 )
 class DashBoard extends React.Component {
 	render() {
-		const {pathname} = this.props.location.pathname==='/' ? {pathname:'/boss'} : this.props.location
+		const {
+			pathname
+		} = this.props.location.pathname === '/' ? {
+			pathname: '/boss'
+		} : this.props.location
 		const user = this.props.user
 		const navList = [{
 			path: '/boss',
@@ -43,11 +45,11 @@ class DashBoard extends React.Component {
 			title: '消息列表',
 			component: Msg,
 		}, {
-			path: '/me',
+			path: '/user',
 			text: '我',
 			icon: 'user',
 			title: '个人中心',
-			component: Me
+			component: User
 		}]
 		return(
 			<div>

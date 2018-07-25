@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-
+import {Card, WhiteSpace, WingBlank,View} from 'antd-mobile'
 class Boss extends React.Component{
 	constructor(props) {
 		super(props)
@@ -18,8 +18,29 @@ class Boss extends React.Component{
 		})
 	}
 	render() {
+		const Header = Card.Header
 		return (
-			<div>boss列表</div>
+			<View style={{ paddingTop: 10 }}>
+				<WingBlank>
+					{
+						this.state.data.map((v)=>{
+							return (
+								<Card key={v._id}>
+			            <Card.Header
+			              title={v.user} 
+			              thumbStyle={{ width: 30, height: 30 }}
+			              thumb={v.avatar}
+			              extra={v.title}
+			            />
+			            <Card.Body>
+			                <span>{v.desc}</span>
+			            </Card.Body>
+			          </Card>
+							)
+						})
+					}
+				</WingBlank>
+			</View>
 		)
 	}
 }

@@ -19,11 +19,17 @@ Router.get('/list', function(req, res) {
 //	User.remove({},function(err,data){})
 	if(type){
 		User.find({type}, function(err, data) {
-			return res.json(data)
+			return res.json({
+				code: 0,
+				data: data
+			})
 		})
 	}else{
 		User.find({}, function(err, data) {
-			return res.json(data)
+			return res.json({
+				code: 0,
+				data: data
+			})
 		})
 	}
 })

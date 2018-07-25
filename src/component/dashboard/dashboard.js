@@ -20,10 +20,7 @@ function Me() {
 )
 class DashBoard extends React.Component {
 	render() {
-		console.log(this.props, 99, 99)
-		const {
-			pathname
-		} = this.props.location
+		const {pathname} = this.props.location.pathname==='/' ? {pathname:'/boss'} : this.props.location
 		const user = this.props.user
 		const navList = [{
 			path: '/boss',
@@ -31,14 +28,14 @@ class DashBoard extends React.Component {
 			icon: 'boss',
 			title: 'boss列表',
 			component: Boss,
-			hide: user.type == 'geninus'
+			hide: user.type === 'geninus'
 		}, {
 			path: '/genius',
 			text: 'genius',
 			icon: 'job',
 			title: '牛人列表',
 			component: Genius,
-			hide: user.type == 'boss'
+			hide: user.type === 'boss'
 		}, {
 			path: '/msg',
 			text: '消息',

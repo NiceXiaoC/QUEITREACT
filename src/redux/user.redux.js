@@ -89,7 +89,6 @@ function errorMsg(msg) {
 }
 
 export function userInfo(data) {
-	console.log(data)
 	return {
 		type: LODE_DATA,
 		payload: data 

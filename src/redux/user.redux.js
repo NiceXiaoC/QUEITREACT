@@ -5,6 +5,8 @@ const ERROR_MSG = 'ERROR_MSG'
 const LOGIN_USCCESS = 'LOGIN_USCCESS'
 const AUTH_SUCCESS = 'AUTH_SUCCESS'
 const LODE_DATA = 'LODE_DATA'
+const LOGOUT = 'LOGOUT'
+const RESET_REG = 'RESET_REG'
 const initState = {
 	redirectTo: '',
 	isAuth: '',
@@ -53,6 +55,15 @@ export function user(state = initState, action) {
 				isAuth: false,
 				msg: action.msg
 			}
+		case LOGOUT:
+			return {
+				...initState,
+				redirectTo: '/login'
+			}
+		case RESET_REG:
+			return {
+				redirectTo: ''
+			}
 		default:
 			return state
 	}
@@ -95,6 +106,12 @@ export function userInfo(data) {
 	}
 }
 
+export function resetReg(){
+	return {
+		type: RESET_REG
+	}
+}
+
 export function update(data) {
 	return dispatch=>{
 		axios.post('/user/update', data).then(res=>{
@@ -106,6 +123,14 @@ export function update(data) {
 		})
 	}
 }
+
+
+export function logoutSubmit(){
+	return{
+		type: LOGOUT
+	}
+}
+
 
 // 登录
 export function login({

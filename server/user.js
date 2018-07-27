@@ -3,12 +3,16 @@ const utils = require('utility')
 const Router = express.Router()
 const model = require('./model')
 const User = model.getModel('user')
+const Chat = model.getModel('chat')
 
 const _filter = {'pwd':0,'__v':0}
 
 // 删除所有用户信息
 Router.get('/del', function(req,res) {
 	User.remove({},function(err,data){
+		return res.json(data)
+	})
+	Chat.remove({},function(err,data){
 		return res.json(data)
 	})
 })
@@ -34,6 +38,18 @@ Router.get('/list', function(req, res) {
 	}
 })
 
+Router.get('/getmsgList',function(req,res){
+	const user = req.cookies.user
+	// {'$on':[{from:user,to:user}]}
+	Chat.find({},function(err,doc){
+		if(!err){
+			return res.json({
+				code: 0,
+				msgs: doc
+			})
+		}
+	})
+})
 
 Router.post('/update',function(req,res){
 	const userid = req.cookies.userid
@@ -55,6 +71,7 @@ Router.post('/update',function(req,res){
 Router.post('/login', function(req, res) {
 	const {user,pwd} = req.body
 	User.findOne({user,pwd:md5Pwd(pwd)}, _filter ,function(err,doc){
+		console.log(err,doc)
 		if(!doc){
 			return res.json({code:1,msg:'用户名活密码错误'})
 		}

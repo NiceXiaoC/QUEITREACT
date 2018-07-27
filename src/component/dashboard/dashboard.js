@@ -30,7 +30,7 @@ class DashBoard extends React.Component {
 			icon: 'boss',
 			title: 'boss列表',
 			component: Boss,
-			hide: user.type === 'geninus'
+			hide: user.type === 'genius'
 		}, {
 			path: '/genius',
 			text: 'genius',

@@ -23,6 +23,7 @@ class Register extends React.Component {
 		this.props.handleChange('type','genius')
 	}
 	handleRegister() {
+		console.log(this.props.state)
 		this.props.register(this.props.state)
 	}
 	render() {

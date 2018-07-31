@@ -1,12 +1,14 @@
 import React from 'react'
-import { List, InputItem, NavBar} from 'antd-mobile'
+import { List, InputItem, NavBar, Icon, Grid} from 'antd-mobile'
 import { connect } from 'react-redux'
 import { getMsgList, sendMsg, recvMsg} from '../../redux/chat.redux'
+import {getChatId} from '../../redux/util'
 @connect(
 	state => state, {
 		getMsgList,
 		sendMsg,
-		recvMsg
+		recvMsg,
+		showEmoji: false
 	}
 )
 class Chat extends React.Component {
@@ -19,15 +21,19 @@ class Chat extends React.Component {
 		this.handleSubmit = this.handleSubmit.bind(this)
 	}
 	componentDidMount() {
-		this.props.getMsgList()
-		this.props.recvMsg()
-		//		scoket.on('recvmsg', (res) => {
-		//			this.setState({
-		//				msg: [...this.state.msg, res.text]
-		//			})
-		//		})
+		if(!this.props.chat.chatmsg.length){
+			this.props.getMsgList()
+			this.props.recvMsg()
+		}
+		
+	}
+	fixCarousel() {
+		setTimeout(function(){
+			window.dispatchEvent(new Event('resize'))
+		},0)
 	}
 	handleSubmit() {
+		if(!this.state.text) return
 		const from = this.props.user._id
 		const to = this.props.match.params.user
 		const msg = this.state.text
@@ -39,22 +45,39 @@ class Chat extends React.Component {
 		this.setState({text:''})
 	}
 	render() {
-		const user = this.props.match.params.user
+		const emoji = '😊 🤔 😬 😘 🔥 😂 ❤ 😊 🤔 😬 😘 🔥 😂 ❤ 😊 🤔 😬 😘 🔥 😂 ❤ 😊 🤔 😬 😘 🔥 😂 ❤ 😊 🤔 😬 😘 🔥 😂 ❤ '
+			.split(' ')
+			.filter(v=>v)
+			.map(v=>({
+				text:v
+			}
+			))
+		
+		const userid = this.props.match.params.user
 		const Item = List.Item
+		const users = this.props.chat.users
+		const chatid = getChatId(userid,this.props.user._id)
+		const chatmsg = this.props.chat.chatmsg.filter(v=>v.chatid==chatid)
+		if(!users[userid]){
+			return null
+		}
 		return(
 			<div id="chat-page">
-				<NavBar mode="dark">
-					{user}
+				<NavBar mode="dark" icon={<Icon type='left'/>} onLeftClick={()=>{
+					this.props.history.goBack()
+				}}>
+					{users[userid].name}
 				</NavBar>
 				{
-					this.props.chat.chatmsg.map(v=>{
-						return v.from == user ? (
+					chatmsg.map(v=>{
+						const avatar = users[v.from].avatar
+						return v.from == userid ? (
 								<List key={v._id+Math.random()}>
-									<Item >{v.content}</Item>
+									<Item thumb={avatar}>{v.content}</Item>
 								</List>
 						):(
 								<List key={v._id+Math.random()}>
-									<Item className="chat-me">{v.content}</Item>
+									<Item extra={<img src={avatar}/>} className="chat-me">{v.content}</Item>
 								</List>
 						)
 						 
@@ -68,10 +91,37 @@ class Chat extends React.Component {
 								onChange={v=>{
 									this.setState({text:v})
 								}}
-								extra={<span onClick={()=>this.handleSubmit()}>发送</span>}
+								extra={
+									<div>
+										<span style={{marginRight:15}} onClick={()=>{
+											this.setState({
+												showEmoji: !this.state.showEmoji
+											})
+											this.fixCarousel()	
+										}
+										}>❤</span>
+										<span onClick={()=>this.handleSubmit()}>发送</span>
+									</div>
+								}
 							>
 							</InputItem>
 						</List>
+						{
+							this.state.showEmoji ? (
+								<Grid
+									data={emoji}
+									columnNum={6}
+									carouselMaxRow={3}
+									isCarousel={true}
+									onClick={el=>{
+										this.setState({
+											text: this.state.text+el.text
+										})
+									}}
+								></Grid>
+							): null
+						}
+						
 					</div>
 				</div>
 		)

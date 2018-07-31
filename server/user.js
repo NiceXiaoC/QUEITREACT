@@ -9,9 +9,9 @@ const _filter = {'pwd':0,'__v':0}
 
 // 删除所有用户信息
 Router.get('/del', function(req,res) {
-	User.remove({},function(err,data){
-		return res.json(data)
-	})
+//	User.remove({},function(err,data){
+//		return res.json(data)
+//	})
 	Chat.remove({},function(err,data){
 		return res.json(data)
 	})
